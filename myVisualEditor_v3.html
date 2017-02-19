@@ -12,34 +12,6 @@
 
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js">
     </script>
-
-    <script>
-    var textBox;
-      function allowDrop(ev) {
-          ev.preventDefault();
-      }
-
-      function drag(ev) {
-          ev.dataTransfer.setData("text", ev.target.id);
-      }
-
-      function drop(ev) {
-          ev.preventDefault();
-          var data = ev.dataTransfer.getData("text");
-          ev.target.appendChild(document.getElementById(data));
-      }
-
-      function addCell() {
-        textBox = document.createElement("div");
-        document.getElementById("newCell").appendChild(textBox);
-      }
-
-      function removeCell() {
-        textBox = document.getElementById("newCell");
-        // textBox.removeChild(textBox.lastElementChild);
-        textBox.removeChild(textBox.childNodes[2]);
-      }
-    </script>
   </head>
 
   <body>
@@ -68,6 +40,10 @@
         <button>Load</button>
         <button onClick="addCell()">Add Cell</button>
         <button onClick="removeCell()">Delete Cell</button>
+        <button>Split Horizontal</button>
+        <button>Split Vertical</button>
+        <select id="dropDown">
+        </select>
       </div>
 
 
