@@ -2,6 +2,7 @@ var cell;
 var layoutTarget;
 var currentLayout = {cell1: "", layoutName: ""};
 var savedLayouts = [];
+var opt;
 
 function allowDrop(ev) {
   ev.preventDefault();
@@ -29,7 +30,7 @@ function drop(ev) {
 
   if (ev.target.id === "div1") {
     // alert("target equals div1")
-    alert(data + " was dropped into " + ev.target.id);
+    // alert(data + " was dropped into " + ev.target.id);
     currentLayout.cell1 = data;
   }
 }
@@ -50,7 +51,7 @@ function updateDropdownMenu() {
   // myDropDownMenu.options.length = 0;
 
   //now, populate the dropdown with the saved layouts
-  var opt = document.createElement("option");
+  opt = document.createElement("option");
   opt.innerHTML = savedLayouts[0].layoutName;
   opt.value = savedLayouts[0].layoutName;
   myDropDownMenu.appendChild(opt);
@@ -72,18 +73,56 @@ function save() {
   clearLayout();
 }
 
-function load() {
-  alert("you clicked on the load button " + savedLayouts[0].layoutName + " " + currentLayout.cell1);
+/***********************************************/
+/*what if layout is empty and user clicks save?*/
+/***********************************************/
+// function save() {
+//   if (currentLayout.cell1 === "") {
+//     alert("you didn't drag and drop an image onto a cell. please do that first before saving a layout");
+//   } else {
+//     currentLayout.layoutName = "layout" + (savedLayouts.length + 1);
+//
+//     savedLayouts.push(currentLayout);
+//
+//     updateDropdownMenu();
+//     clearLayout();
+//   }
+// }
 
-  document.getElementById("div1").appendChild(currentLayout.cell1);
+function load() {
+  // alert("hi " + currentLayout.layoutName);
+
+  // if (document.getElementById("dropDown").length === 0) {
+  //   alert("Oops. there is nothing to load. Try saving a layout first.");
+  // }
+  //
+  // //track user's selection
+  if (document.getElementById("dropDown").value === "layout1") {
+    alert("the user selected layout1");
+  } else if (document.getElementById("dropDown").value === "layout2") {
+    alert("the user selected layout2");
+  }
+
+  /***********how to automate the above?***********/
+  // var x = "string" + 1;
+  // var newX = parseInt(x);
+  // alert(typeof newX);
+
+  // for (var i = 0; i < document.getElementById("dropDown").length; i++) {
+  //   if (document.getElementById("dropDown").value == ("layout" + i)) {
+  //     alert("the user selected layout" + i);
+  //   }
+  // }
+
+  // document.getElementById("div1").appendChild(currentLayout.cell1);
 }
 
 // function load() {
-  // alert("you clicked on the load button");
-  // var image1 = document.getElementById("img1");
-  // var image2 = document.getElementById("img2");
-  // var image3 = document.getElementById("img3");
-  // document.getElementById("div1").appendChild(image1);
-  // document.getElementById("div2").appendChild(image2);
-  // document.getElementById("div3").appendChild(image3);
+//   alert("you clicked on the load button");
+//   var image1 = document.getElementById("img1");
+//   var image2 = document.getElementById("img2");
+//   var image3 = document.getElementById("img3");
+//   document.getElementById("div1").appendChild(image1);
+//   document.getElementById("div2").appendChild(image2);
+//   document.getElementById("div3").appendChild(image3);
 // }
