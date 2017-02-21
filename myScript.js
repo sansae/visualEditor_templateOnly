@@ -1,6 +1,6 @@
 var cell;
 var layoutTarget;
-var currentLayout = {cell1: "", layoutName: ""};
+var currentLayout = {cell1: "", cell2: "", cell3: "", layoutName: ""};
 var savedLayouts = [];
 var opt;
 
@@ -12,7 +12,6 @@ function drag(ev) {
   ev.dataTransfer.setData("text", ev.target.id);
 }
 
-/*works, but the cloned img can also be cloned*/
 function drop(ev) {
   ev.preventDefault();
 
@@ -32,6 +31,10 @@ function drop(ev) {
     // alert("target equals div1")
     // alert(data + " was dropped into " + ev.target.id);
     currentLayout.cell1 = data;
+  } else if (ev.target.id === "div2") {
+    currentLayout.cell2 = data;
+  } else {
+    currentLayout.cell3 = data;
   }
 }
 
@@ -47,82 +50,73 @@ function removeCell() {
 
 function updateDropdownMenu() {
   var myDropDownMenu = document.getElementById("dropDown");
-  //clear contents of the dropDown
-  // myDropDownMenu.options.length = 0;
 
   //now, populate the dropdown with the saved layouts
   opt = document.createElement("option");
-  opt.innerHTML = savedLayouts[0].layoutName;
-  opt.value = savedLayouts[0].layoutName;
-  myDropDownMenu.appendChild(opt);
+  for (var i = 0; i < savedLayouts.length; i++) {
+    opt.innerHTML = savedLayouts[i].layoutName;
+    opt.value = savedLayouts[i].layoutName;
+    myDropDownMenu.appendChild(opt);
+  }
 }
 
 function clearLayout() {
+  currentLayout = {cell1: "", layoutName: ""};
   document.getElementById("div1").innerHTML = "";
   document.getElementById("div2").innerHTML = "";
   document.getElementById("div3").innerHTML = "";
-  document.getElementById("div4").innerHTML = "";
 }
 
 function save() {
-  currentLayout.layoutName = "layout" + (savedLayouts.length + 1);
+  if (currentLayout.cell1 === "") {
+    alert("You didn't drag and drop an image onto a cell. Please do that first before saving a layout.");
+  } else {
+    currentLayout.layoutName = "layout" + (savedLayouts.length + 1);
 
-  savedLayouts.push(currentLayout);
+    savedLayouts.push(currentLayout);
 
-  updateDropdownMenu();
-  clearLayout();
+    updateDropdownMenu();
+    clearLayout();
+  }
 }
-
-/***********************************************/
-/*what if layout is empty and user clicks save?*/
-/***********************************************/
-// function save() {
-//   if (currentLayout.cell1 === "") {
-//     alert("you didn't drag and drop an image onto a cell. please do that first before saving a layout");
-//   } else {
-//     currentLayout.layoutName = "layout" + (savedLayouts.length + 1);
-//
-//     savedLayouts.push(currentLayout);
-//
-//     updateDropdownMenu();
-//     clearLayout();
-//   }
-// }
 
 function load() {
-  // alert("hi " + currentLayout.layoutName);
+  // alert(document.getElementById(savedLayouts[0].cell1));
 
-  // if (document.getElementById("dropDown").length === 0) {
-  //   alert("Oops. there is nothing to load. Try saving a layout first.");
-  // }
-  //
-  // //track user's selection
-  if (document.getElementById("dropDown").value === "layout1") {
-    alert("the user selected layout1");
-  } else if (document.getElementById("dropDown").value === "layout2") {
-    alert("the user selected layout2");
+  document.getElementById("div1").innerHTML = "";
+  document.getElementById("div2").innerHTML = "";
+  document.getElementById("div3").innerHTML = "";
+  // // alert("hi " + currentLayout.layoutName);
+  if (document.getElementById("dropDown").length === 0) {
+    alert("Oops. there is nothing to load. Try saving a layout first.");
   }
 
-  /***********how to automate the above?***********/
-  // var x = "string" + 1;
-  // var newX = parseInt(x);
-  // alert(typeof newX);
+  var dropDownValue = document.getElementById("dropDown").value;
 
-  // for (var i = 0; i < document.getElementById("dropDown").length; i++) {
-  //   if (document.getElementById("dropDown").value == ("layout" + i)) {
-  //     alert("the user selected layout" + i);
-  //   }
-  // }
+  for (var i = 0; i < savedLayouts.length; i++) {
+    if (dropDownValue == savedLayouts[i].layoutName) {
+      //append clones to dom
+      //if document.getElementById(savedLayouts[0].cellx) != null, do append
+      if (document.getElementById(savedLayouts[0].cell1) != null) {
+        //get image
+        var image1 = document.getElementById(savedLayouts[i].cell1);
+        //clone image
+        var cloneImg1 = image1.cloneNode(true);
+        //append to DOM
+        document.getElementById("div1").appendChild(cloneImg1);
+      }
 
-  // document.getElementById("div1").appendChild(currentLayout.cell1);
+      if (document.getElementById(savedLayouts[0].cell2) != null) {
+        var image2 = document.getElementById(savedLayouts[i].cell2);
+        var cloneImg2 = image2.cloneNode(true);
+        document.getElementById("div2").appendChild(cloneImg2);
+      }
+
+      if (document.getElementById(savedLayouts[0].cell3) != null) {
+        var image3 = document.getElementById(savedLayouts[i].cell3);
+        var cloneImg3 = image3.cloneNode(true);
+        document.getElementById("div3").appendChild(cloneImg3);
+      }
+    }
+  }
 }
-
-// function load() {
-//   alert("you clicked on the load button");
-//   var image1 = document.getElementById("img1");
-//   var image2 = document.getElementById("img2");
-//   var image3 = document.getElementById("img3");
-//   document.getElementById("div1").appendChild(image1);
-//   document.getElementById("div2").appendChild(image2);
-//   document.getElementById("div3").appendChild(image3);
-// }
